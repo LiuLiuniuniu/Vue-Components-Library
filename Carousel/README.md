@@ -1,5 +1,4 @@
 <p align="center">
-<img src="https://i.loli.net/2019/07/31/5d415c56ee47078669.png" alt="1.png" title="1.png" />
 <img src="https://i.loli.net/2019/07/31/5d415c583cca181681.png" alt="2.png" title="2.png" />
 </p>
 
@@ -63,4 +62,23 @@ data() {
 #### 不使用 viewerjs
 
 去掉 `id="galley"`即可
+
+#### 改为弹出样式
+
+![](https://i.loli.net/2019/08/01/5d429b1fd9d5d10736.png)
+
+```
+.slide li img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  cursor: pointer;
+  user-select: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+```
 
