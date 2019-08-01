@@ -12,51 +12,54 @@
 https://github.com/fengyuanchen/viewerjs/blob/master/README.md
 
 #### 使用
-```vue
-<vue-carousel></vue-carousel>
 
-import VueCarousel from "@/components/carousel";
+```vue
+<v-carousel :slideData="slideData" :height="450" :begin="0" :interval="3000" :dot="true" :arrow="true"></v-carousel>
+```
+
+```vue
+import VCarousel from "@/components/carousel";
 export default {
   name: "test-carousel",
   components: {
-    VueCarousel
+    VCarousel
   }
 };
 ```
 
 ## 传值
 
-```vue
- <vue-carousel :sliders="sliders"></vue-carousel>
- 
- data() {
-     return {
-       sliders: [
-         {
-           img:
-             "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-1.jpg"
-         },
-         {
-           img:
-             "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-2.jpg"
-         },
-         {
-           img:
-             "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-3.jpg"
-         },
-         {
-           img:
-             "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-4.jpg"
-         },
-         {
-           img:
-             "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-6.jpg"
-         }
-       ]
-     };
- }
-```
 
+
+```
+data() {
+    return {
+      slideData: [
+        // 图片的src,图片的超链接
+        {
+          src:
+            "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-1.jpg",
+        },
+        {
+          src:
+            "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-2.jpg",
+        },
+        {
+          src:
+            "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-3.jpg",
+        },
+        {
+          src:
+            "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-4.jpg",
+        },
+        {
+          src:
+            "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-5.jpg",
+        }
+      ]
+    };
+  }
+```
 #### 不使用 viewerjs
 
 去掉 `id="galley"`即可

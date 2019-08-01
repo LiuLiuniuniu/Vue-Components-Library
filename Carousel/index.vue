@@ -1,66 +1,35 @@
 <template>
-  <div class="carousel">
-    <div id="slider">
-      <div class="window" @mouseover="stop" @mouseleave="play">
-        <ul class="container" id="galley" :style="containerStyle">
-          <li>
-            <img
-              :style="{ width: imgWidth + 'px' }"
-              :src="sliders[sliders.length - 1].img"
-              alt=""
-            />
-          </li>
-          <li v-for="(item, index) in sliders" :key="index">
-            <img :style="{ width: imgWidth + 'px' }" :src="item.img" alt="" />
-          </li>
-          <li>
-            <img
-              :style="{ width: imgWidth + 'px' }"
-              :src="sliders[0].img"
-              alt=""
-            />
-          </li>
-        </ul>
-        <ul class="direction">
-          <li class="left" @click="move(600, 1, speed)">
-            <svg
-              class="icon"
-              width="30px"
-              height="30.00px"
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill="#ffffff"
-                d="M481.233 904c8.189 0 16.379-3.124 22.628-9.372 12.496-12.497 12.496-32.759 0-45.256L166.488 512l337.373-337.373c12.496-12.497 12.496-32.758 0-45.255-12.498-12.497-32.758-12.497-45.256 0l-360 360c-12.496 12.497-12.496 32.758 0 45.255l360 360c6.249 6.249 14.439 9.373 22.628 9.373z"
-              />
-            </svg>
-          </li>
-          <li class="right" @click="move(600, -1, speed)">
-            <svg
-              class="icon"
-              width="30px"
-              height="30.00px"
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill="#ffffff"
-                d="M557.179 904c-8.189 0-16.379-3.124-22.628-9.372-12.496-12.497-12.496-32.759 0-45.256L871.924 512 534.551 174.627c-12.496-12.497-12.496-32.758 0-45.255 12.498-12.497 32.758-12.497 45.256 0l360 360c12.496 12.497 12.496 32.758 0 45.255l-360 360c-6.249 6.249-14.439 9.373-22.628 9.373z"
-              />
-            </svg>
-          </li>
-        </ul>
-        <ul class="dots">
-          <li
-            v-for="(dot, i) in sliders"
-            :key="i"
-            :class="{ dotted: i === currentIndex - 1 }"
-            @click="jump(i + 1)"
-          ></li>
-        </ul>
+  <div id="carousel">
+    <div
+      class="carousel"
+      ref="carousel"
+      v-bind:style="{ height: height + 'px' }"
+    >
+      <transition-group
+        tag="ul"
+        class="slide clearfix"
+        :name="transitionName"
+        id="galley"
+      >
+        <li
+          v-for="(item, index) in slideData"
+          :key="index"
+          v-show="index == beginValue"
+          v-bind:style="{ height: height + 'px' }"
+        >
+          <img :src="item.src" />
+          <div class="title" v-if="item.title">{{ item.title }}</div>
+        </li>
+      </transition-group>
+      <div class="up" @click="up" v-show="arrow"></div>
+      <div class="next" @click="next" v-show="arrow"></div>
+      <div class="slideDot" v-show="dot">
+        <span
+          v-for="(item, index) in slideData"
+          :class="{ active: index == beginValue }"
+          @click="change(index)"
+          :key="index"
+        ></span>
       </div>
     </div>
   </div>
@@ -70,206 +39,184 @@
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
 export default {
-  name: "index",
+  name: "carousel",
+  data() {
+    return {
+      setInterval: "",
+      beginValue: 0,
+      transitionName: "slide"
+    };
+  },
   props: {
-    initialSpeed: {
+    height: {
       type: Number,
-      default: 30
+      default: 600
     },
-    initialInterval: {
+    dot: {
+      type: Boolean,
+      default: true
+    },
+    arrow: {
+      type: Boolean,
+      default: true
+    },
+    interval: {
       type: Number,
-      default: 3
+      default: 5000
     },
-    sliders: {
+    begin: {
+      type: Number,
+      default: 0
+    },
+    slideData: {
       type: Array,
       default: function() {
         return [
           {
-            img:
+            title: "这是一个Vue轮播图组件",
+            src:
               "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-1.jpg"
           },
           {
-            img:
+            title: "这是一个Vue轮播图组件",
+            src:
               "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-2.jpg"
           },
           {
-            img:
+            title: "这是一个Vue轮播图组件",
+            src:
               "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-3.jpg"
           },
           {
-            img:
+            title: "这是一个Vue轮播图组件",
+            src:
               "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-4.jpg"
           },
           {
-            img:
+            title: "这是一个Vue轮播图组件",
+            src:
               "https://fengyuanchen.github.io/viewerjs/images/thumbnails/tibet-5.jpg"
           }
         ];
       }
     }
   },
-  data() {
-    return {
-      imgWidth: 600,
-      currentIndex: 1,
-      distance: -600,
-      transitionEnd: true,
-      speed: this.initialSpeed
-    };
+  beforeDestroy() {
+    // 组件销毁前,清除监听器
+    clearInterval(this.setInterval);
   },
-  computed: {
-    containerStyle() {
-      return {
-        transform: `translate3d(${this.distance}px, 0, 0)`
-      };
+  methods: {
+    change(key) {
+      if (key > this.slideData.length - 1) {
+        key = 0;
+      }
+      if (key < 0) {
+        key = this.slideData.length - 1;
+      }
+
+      this.beginValue = key;
     },
-    interval() {
-      return this.initialInterval * 1000;
+    autoPlay() {
+      //console.log(this.$refs.carousel.getBoundingClientRect().width);
+      this.transitionName = "slide";
+      this.beginValue++;
+      if (this.beginValue >= this.slideData.length) {
+        this.beginValue = 0;
+        return;
+      }
+    },
+    play() {
+      this.setInterval = setInterval(this.autoPlay, this.interval);
+    },
+    mouseOver() {
+      //鼠标进入
+      //console.log('over')
+      clearInterval(this.setInterval);
+    },
+    mouseOut() {
+      //鼠标离开
+      //console.log('out')
+      this.play();
+    },
+    up() {
+      //上一页
+      --this.beginValue;
+      this.transitionName = "slideBack";
+      this.change(this.beginValue);
+    },
+    next() {
+      //下一页
+      ++this.beginValue;
+      this.transitionName = "slide";
+      this.change(this.beginValue);
     }
   },
   mounted() {
+    let box = this.$refs.carousel; //监听对象
+    box.addEventListener("mouseover", () => {
+      this.mouseOver();
+    });
+    box.addEventListener("mouseout", () => {
+      this.mouseOut();
+    });
+    this.beginValue = this.begin;
     let galley = document.getElementById("galley");
     let viewer = new Viewer(galley, {
       // 相关配置项,详情参考官网
     });
-    this.init();
-  },
-  methods: {
-    init() {
-      this.play();
-      window.onblur = function() {
-        this.stop();
-      }.bind(this);
-      window.onfocus = function() {
-        this.play();
-      }.bind(this);
-    },
-    move(offset, direction, speed) {
-      console.log(speed);
-      if (!this.transitionEnd) return;
-      this.transitionEnd = false;
-      direction === -1
-        ? (this.currentIndex += offset / 600)
-        : (this.currentIndex -= offset / 600);
-      if (this.currentIndex > 5) this.currentIndex = 1;
-      if (this.currentIndex < 1) this.currentIndex = 5;
-
-      const destination = this.distance + offset * direction;
-      this.animate(destination, direction, speed);
-    },
-    animate(des, direc, speed) {
-      if (this.temp) {
-        window.clearInterval(this.temp);
-        this.temp = null;
-      }
-      this.temp = window.setInterval(() => {
-        if (
-          (direc === -1 && des < this.distance) ||
-          (direc === 1 && des > this.distance)
-        ) {
-          this.distance += speed * direc;
-        } else {
-          this.transitionEnd = true;
-          window.clearInterval(this.temp);
-          this.distance = des;
-          if (des < -3000) this.distance = -600;
-          if (des > -600) this.distance = -3000;
-        }
-      }, 20);
-    },
-    jump(index) {
-      const direction = index - this.currentIndex >= 0 ? -1 : 1;
-      const offset = Math.abs(index - this.currentIndex) * 600;
-      const jumpSpeed =
-        Math.abs(index - this.currentIndex) === 0
-          ? this.speed
-          : Math.abs(index - this.currentIndex) * this.speed;
-      this.move(offset, direction, jumpSpeed);
-    },
-    stop() {
-      window.clearInterval(this.timer);
-      this.timer = null;
-    },
-    play() {
-      if (this.timer) {
-        window.clearInterval(this.timer);
-        this.timer = null;
-      }
-      this.timer = window.setInterval(() => {
-        this.move(600, -1, this.speed);
-      }, this.interval);
-    }
+    this.play();
   }
 };
 </script>
 
 <style scoped lang="scss">
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-ol,
-ul {
-  list-style: none;
-}
-#slider {
-  text-align: center;
+.carousel {
+  position: relative;
   &:hover {
-    .direction {
-      .left,
-      .right {
-        opacity: 1;
-        transition: all 0.3s ease-in-out;
-      }
+    .up,
+    .next {
+      opacity: 1;
+      transition: all 0.3s ease-in-out;
     }
   }
 }
-.window {
-  position: relative;
-  width: 600px;
-  height: 400px;
-  /*margin: 0 auto;*/
+.slide {
+  margin: 0;
+  padding: 0;
   overflow: hidden;
+  width: 100%;
+  height: 450px;
 }
-.container {
-  display: flex;
+.slide li {
+  list-style: none;
   position: absolute;
+  width: 100%;
+  height: 450px;
 }
-.left,
-.right {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 50%;
+.slide li img {
+  width: 100%;
+  height: 450px;
   cursor: pointer;
-  font-size: 20px;
-  color: #ffffff;
-  opacity: 0.2;
-}
-.left {
-  left: 3%;
-  padding-left: 12px;
-  padding-top: 10px;
-}
-.right {
-  right: 3%;
-  padding-right: 12px;
-  padding-top: 10px;
-}
-img {
   user-select: none;
 }
-.dots {
+.slide li .title {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 10px 20px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-size: larger;
+  text-align: center;
+}
+.slideDot {
   position: absolute;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
 }
-.dots li {
+.slideDot span {
   display: inline-block;
   width: 25px;
   height: 5px;
@@ -280,9 +227,81 @@ img {
   opacity: 0.3;
   transition: all 0.5s;
 }
-.dots .dotted {
+.slideDot span.active {
   background-color: #ffffff;
   opacity: 1;
   width: 35px;
+}
+.up,
+.next {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -32px;
+  cursor: pointer;
+  width: 64px;
+  height: 64px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  color: #ffffff;
+  opacity: 0.2;
+}
+.up {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABSklEQVRoQ9Xa220CMRCF4XMqIB0kdJASSCfpIDWlAzqAElIC6SBUMNFIywsCtB7PjX336v/k3YexTBQ+IvIC4AvAN8mTJYWWRR5rROQdwAGAIk4kt5b3lgCu4rX7l+TbUwBuxJ8B7Ej+tAd4xys47ROKiE8DRMWnACLjwwHR8aGAjPgwQFZ8CCAz3h2QHe8KqIh3A1TFuwAq46cB1fFTgA7xZkCXeBOgU/wwoFv8EKBj/GpA1/gRgJ4e7JaZdWqGtcy9j9asGilFRM9sXpcX/QH4sA7hVQA9wzkC2HRDrNoBjV7+g3aI1YCuiCFAR8QwoBvCBOiEMAO6IKYAHRDTgGqEC6AS4QaoQrgCKhDugGxECCATEQbIQoQCMhDhgGhECiASkQaIQqQCIhDpgDuI57orcQNxJqmXPoafkh24VIqIXvD4BLC3HtP8A6pfGkB3vbyXAAAAAElFTkSuQmCC");
+}
+.next {
+  left: auto;
+  right: 0;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABOElEQVRoQ9Xa0W0CQQyEYU9JqShQAXSSEgIdUAIlQAd04milezgdOiHZ4/GGN5C8/N/u060Olvy4+8nMngDuyaVC4whNLUPufjazn+XrEcAls15klgkY/y9HpACj2N3Hrn+vdk+KSAO6ERRAJ4IG6EJQAR0IOkCNKAEoEWUAFaIUoECUA6oREkAlQgaoQkgBFQg5gI1oATARbQAWohXAQLQDsogpABnENIAoYirADuILwGPvxmJGwK+ZHVbB/wfg7tv4K4A15u0gpjmBSPzQTAGIxk8ByMS3A7LxrQBGfBuAFd8CYMbLAex4KaAiXgaoipcAKuPLAdXxpQBFfBlAFV8CUMbTAep4KqAjngboiqcAOuPTgM27EmO9j8+we7cL0d9Tj5QbgDw+fQLLPc54Y+UF4BbdxczcH9Le8DFn39OvAAAAAElFTkSuQmCC");
+}
+
+/*进入过渡生效时的状态*/
+.slide-enter-active {
+  transform: translateX(0);
+  transition: all 0.3s ease;
+}
+
+/*进入开始状态*/
+.slide-enter {
+  transform: translateX(-100%);
+}
+
+/*离开过渡生效时的状态*/
+.slide-leave-active {
+  transform: translateX(100%);
+  transition: all 0.3s ease;
+}
+
+/*离开过渡的开始状态*/
+.slide-leave {
+  transform: translateX(0);
+}
+
+/*进入过渡生效时的状态*/
+.slideBack-enter-active {
+  transform: translateX(0);
+  transition: all 0.3s ease;
+}
+
+/*进入开始状态*/
+.slideBack-enter {
+  transform: translateX(100%);
+}
+
+/*离开过渡生效时的状态*/
+.slideBack-leave-active {
+  transform: translateX(-100%);
+  transition: all 0.3s ease;
+}
+
+/*离开过渡的开始状态*/
+.slideBack-leave {
+  transform: translateX(0);
+}
+.clearfix {
+  clear: both;
 }
 </style>
