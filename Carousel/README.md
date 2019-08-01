@@ -67,6 +67,8 @@ data() {
 
 ![](https://i.loli.net/2019/08/01/5d429b1fd9d5d10736.png)
 
+> 图片垂直自适应居中 
+
 ```
 .slide li img {
   width: auto;
@@ -77,8 +79,10 @@ data() {
   user-select: none;
   position: absolute;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 ```
 
