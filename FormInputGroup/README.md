@@ -88,9 +88,12 @@ export default {
 
 > 具体参数详细源码 `form-storage.vue`
 
-💥 地址组件没有写，是因为要用到的关联组件太多了，所以砍掉了...
+💥 地址组件没有写，是因为要用到的关联组件有限，所以砍掉了...
 
 ```vue
-//地址组件
+//点击唤醒地图
 mapLoad() {},
 ```
+
+### 推荐其它相似优秀组件
+https://github.com/xaboy/form-create
