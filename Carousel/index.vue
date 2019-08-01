@@ -172,6 +172,7 @@ export default {
 <style scoped lang="scss">
 .carousel {
   position: relative;
+  overflow: hidden;
   &:hover {
     .up,
     .next {
