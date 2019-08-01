@@ -223,7 +223,7 @@
       v-model="config.val"
     >
       <a-checkbox
-        v-for="(item, index) in config.option_data"
+        v-for="(item, index) in config.option"
         :key="index"
         :value="item.id"
       >

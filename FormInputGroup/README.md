@@ -2,6 +2,9 @@
 
 https://vue.ant.design/components/card-cn/
 
+## 效果图
+![](https://i.loli.net/2019/08/01/5d42adf0b7cbd41259.png)
+
 ## 使用
 
 > 你的项目得有`vue.ant.design`才能完美运行此组件
@@ -20,7 +23,7 @@ https://vue.ant.design/components/card-cn/
 </div>
 ```
 
-```js
+```vue
 <script>
 import FormStorage from "@/components/form-storage";
 export default {
@@ -87,10 +90,7 @@ export default {
 
 💥 地址组件没有写，是因为要用到的关联组件太多了，所以砍掉了...
 
-```js
+```vue
 //地址组件
 mapLoad() {},
 ```
-
-## 效果图
-![](https://i.loli.net/2019/08/01/5d42adf0b7cbd41259.png)
