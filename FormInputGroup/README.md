@@ -10,70 +10,32 @@ https://vue.ant.design/components/card-cn/
 > 你的项目得有`vue.ant.design`才能完美运行此组件
 
 ```vue
-<div class="form-storage-list">
-  <a-form>
-    <div v-for="(item, index) of InputGroup" :key="index">
-      <a-form-item
-        :label="item.name"
-      >
-        <form-storage :config="item"></form-storage>
-      </a-form-item>
-    </div>
-  </a-form>
-</div>
+  <async-components
+    v-for="(item, index) in checkboxGroup"
+    :key="index"
+    :component="item.module"
+    :option="item.data.option"
+    :can-edit="item.data.canEdit"
+    :placeholder="item.data.placeholder"
+    v-model="item.value"
+  ></async-components>
 ```
 
 ```vue
-<script>
-import FormStorage from "@/components/form-storage";
 export default {
-  name: "test-carousel",
-  components: {
-    FormStorage
-  },
-  data() {
-    return {
-      InputGroup: [
-        {
-          type: "input",
-          name: "名字:",
-          fields: "name",
-          defaultValue: "",
-          placeholder: "请输入名字"
+    data(){
+        checkboxGroup: {
+          checkboxGroup1: {
+            value: undefined,
+            module: () => import("@/components/fromInputGroup/checkboxGroup.vue"),
+            data: {
+              option: [{ value: 1, name: "name1" }, { value: 2, name: "name2" }],
+              placeholder: "13131231"
+            }
+          }
         },
-        {
-          type: "select",
-          name: "来源类型:",
-          fields: "type",
-          option: [
-            { key: "类型1", value: "类型1" },
-            { key: "类型2", value: "类型2" },
-            { key: "类型3", value: "类型3" },
-            { key: "类型4", value: "类型4" }
-          ],
-          placeholder: "请选择"
-        },
-        {
-          type: "radioGroup",
-          name: "来源类型:",
-          fields: "type",
-          option: [
-            { key: "类型1", value: "类型1" },
-            { key: "类型2", value: "类型2" },
-            { key: "类型3", value: "类型3" },
-            { key: "类型4", value: "类型4" }
-          ],
-          placeholder: "请选择"
-        },
-        {
-          name: "文本域:",
-          type: "textArea"
-        }
-      ]
-    };
-  }
-};
-</script>
+    }
+}
 ```
 
 ### 参数说明
@@ -95,5 +57,10 @@ export default {
 mapLoad() {},
 ```
 
-### 推荐其它相似优秀组件
-https://github.com/xaboy/form-create
+### 推荐相似的优秀组件
+
+<p align="center">
+    <a href="http://www.form-create.com" rel="nofollow">
+        <img width="200" src="https://camo.githubusercontent.com/7b814a1424af0527deaf3c3f7edd86b07dde34f7/687474703a2f2f66696c652e6c6f746b6b2e636f6d2f666f726d2d6372656174652e706e67" data-canonical-src="http://file.lotkk.com/form-create.png" style="max-width:100%;">
+    </a>
+</p>
