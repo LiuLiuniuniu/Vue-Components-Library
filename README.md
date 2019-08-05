@@ -18,3 +18,6 @@
 ##### [如何在Vue中，当鼠标hover上元素时,给元素加遮罩层](https://www.cnblogs.com/wangjiachen666/p/11090908.html)——[VueHoverMask](https://github.com/wangjiachen199366/Vue-Components-Library/tree/master/VueHoverMask)
 
 ##### [适合任何场景的跑马灯效果](#)——[Carousel](https://github.com/LiuLiuniuniu/Vue-Components-Library/tree/master/Carousel)
+
+##### [Vue+vue.ant.design 的表单库](#)——[FormInputGroup](https://github.com/LiuLiuniuniu/Vue-Components-Library/tree/master/FormInputGroup)
+
