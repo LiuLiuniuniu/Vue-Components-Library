@@ -21,4 +21,4 @@
 
 ##### [Vue+vue.ant.design 的表单库](#)——[FormInputGroup](https://github.com/LiuLiuniuniu/Vue-Components-Library/tree/master/FormInputGroup)
 
-##### [Vue+element 基于el-select和el-tree改造的树形选择器组件](https://github.com/KBeginner/el-tree-select/edit/master/README.md)——[FormInputGroup](https://github.com/LiuLiuniuniu/Vue-Components-Library/tree/master/TreeSelect)
+##### [Vue+element 基于el-select和el-tree改造的树形选择器组件](https://github.com/KBeginner/el-tree-select/edit/master/README.md)——[TreeSelect](https://github.com/LiuLiuniuniu/Vue-Components-Library/tree/master/TreeSelect)
