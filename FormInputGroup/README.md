@@ -3,7 +3,7 @@
 https://vue.ant.design/components/card-cn/
 
 ## 效果图
-![](https://i.loli.net/2019/08/01/5d42adf0b7cbd41259.png)
+![](https://i.loli.net/2019/08/05/J3l5wxhjoAKUDHb.png)
 
 ## 使用
 
@@ -43,7 +43,7 @@ export default {
 
 1. `fields`：传给后台的参数
 2. `type`：input的类型
-3. `name`：label名称
+3. `label`：label名称
 4. `option`：只有当`input`为多个参数使用，比如`select`、`radioGroup`等，具体使用看源码 `form-storage.vue`
 5. `placeholder`：placeholder提示
 

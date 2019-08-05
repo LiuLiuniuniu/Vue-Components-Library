@@ -94,7 +94,7 @@
 
 <script>
 import Vue from "vue";
-import asyncComponents from "@/plugins/async-components/index.vue";
+import asyncComponents from "./async-components/index.vue";
 Vue.component("async-components", asyncComponents);
 export default {
   name: "FromInput",
