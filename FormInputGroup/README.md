@@ -5,11 +5,24 @@ https://vue.ant.design/components/card-cn/
 ## 效果图
 ![](https://i.loli.net/2019/08/05/J3l5wxhjoAKUDHb.png)
 
-## 使用
-
 > 你的项目得有`vue.ant.design`才能完美运行此组件
 
+### 下载 `vue.ant.design`
+
 ```vue
+vue ui
+```
+
+插件 => 添加插件 => vue.ant.design安装
+
+## 使用
+
+### 文件放至位置
+
+![](https://i.loli.net/2019/08/05/zcXW679tlDPe8BL.png)
+
+```vue
+<!--FromInput.vue-->
   <async-components
     v-for="(item, index) in checkboxGroup"
     :key="index"
