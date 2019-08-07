@@ -1,10 +1,6 @@
 <template>
   <div id="carousel">
-    <div
-      class="carousel"
-      ref="carousel"
-      v-bind:style="{ height: height + 'px' }"
-    >
+    <div class="carousel" ref="carousel">
       <transition-group
         tag="ul"
         class="slide clearfix"
@@ -21,6 +17,9 @@
           <div class="title" v-if="item.title">{{ item.title }}</div>
         </li>
       </transition-group>
+      <div class="count" v-show="count">
+        {{ beginValue + 1 + `/` + img_count }}
+      </div>
       <div class="up" @click="up" v-show="arrow"></div>
       <div class="next" @click="next" v-show="arrow"></div>
       <div class="slideDot" v-show="dot">
@@ -42,6 +41,8 @@ export default {
   name: "carousel",
   data() {
     return {
+      img_count: 0,
+      img_index: 0,
       setInterval: "",
       beginValue: 0,
       transitionName: "slide"
@@ -57,6 +58,10 @@ export default {
       default: true
     },
     arrow: {
+      type: Boolean,
+      default: true
+    },
+    count: {
       type: Boolean,
       default: true
     },
@@ -126,7 +131,7 @@ export default {
       }
     },
     play() {
-      this.setInterval = setInterval(this.autoPlay, this.interval);
+      // this.setInterval = setInterval(this.autoPlay, this.interval);
     },
     mouseOver() {
       //鼠标进入
@@ -152,6 +157,7 @@ export default {
     }
   },
   mounted() {
+    this.img_count = this.slideData.length;
     let box = this.$refs.carousel; //监听对象
     box.addEventListener("mouseover", () => {
       this.mouseOver();
@@ -184,7 +190,6 @@ export default {
 .slide {
   margin: 0;
   padding: 0;
-  overflow: hidden;
   width: 100%;
   height: 450px;
 }
@@ -192,13 +197,20 @@ export default {
   list-style: none;
   position: absolute;
   width: 100%;
-  height: 450px;
 }
 .slide li img {
-  width: 100%;
-  height: 450px;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
   cursor: pointer;
   user-select: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 .slide li .title {
   position: absolute;
@@ -223,7 +235,7 @@ export default {
   height: 5px;
   margin: 0 3px;
   border: 1px solid white;
-  background-color: #ffffff;
+  background-color: #010;
   cursor: pointer;
   opacity: 0.3;
   transition: all 0.5s;
@@ -249,6 +261,19 @@ export default {
   font-size: 20px;
   color: #ffffff;
   opacity: 0.2;
+}
+.count {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  padding: 5px 20px;
+  border-radius: 15px;
+  color: #ffffff;
+  background-color: #999999;
+  opacity: 0.8;
+}
+.count:hover {
+  opacity: 1;
 }
 .up {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABSklEQVRoQ9Xa220CMRCF4XMqIB0kdJASSCfpIDWlAzqAElIC6SBUMNFIywsCtB7PjX336v/k3YexTBQ+IvIC4AvAN8mTJYWWRR5rROQdwAGAIk4kt5b3lgCu4rX7l+TbUwBuxJ8B7Ej+tAd4xys47ROKiE8DRMWnACLjwwHR8aGAjPgwQFZ8CCAz3h2QHe8KqIh3A1TFuwAq46cB1fFTgA7xZkCXeBOgU/wwoFv8EKBj/GpA1/gRgJ4e7JaZdWqGtcy9j9asGilFRM9sXpcX/QH4sA7hVQA9wzkC2HRDrNoBjV7+g3aI1YCuiCFAR8QwoBvCBOiEMAO6IKYAHRDTgGqEC6AS4QaoQrgCKhDugGxECCATEQbIQoQCMhDhgGhECiASkQaIQqQCIhDpgDuI57orcQNxJqmXPoafkh24VIqIXvD4BLC3HtP8A6pfGkB3vbyXAAAAAElFTkSuQmCC");

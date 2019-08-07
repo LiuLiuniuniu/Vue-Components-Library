@@ -28,8 +28,6 @@ export default {
 
 ## 传值
 
-
-
 ```
 data() {
     return {
@@ -59,6 +57,18 @@ data() {
     };
   }
 ```
+
+#### props参数
+
+1. `height`：高度
+1. `dot`：图片数量走势
+1. `arrow`：左右指向
+1. `count`：右上角图片数量
+1. `interval`：定时器
+1. `begin`：略
+1. `slideData`：图片数据
+
+
 #### 不使用 viewerjs
 
 去掉 `id="galley"`即可
