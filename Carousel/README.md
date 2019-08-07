@@ -75,7 +75,7 @@ data() {
 
 #### 改为弹出样式
 
-![](https://i.loli.net/2019/08/01/5d429b1fd9d5d10736.png)
+![](https://i.loli.net/2019/08/07/wS5Jagtqdef1pyV.png)
 
 > 图片垂直自适应居中 
 
