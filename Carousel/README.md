@@ -77,9 +77,31 @@ data() {
 
 ![](https://i.loli.net/2019/08/07/wS5Jagtqdef1pyV.png)
 
-> 图片垂直自适应居中 
+> 非弹窗
 
 ```
+.slide li {
+  list-style: none;
+  position: absolute;
+  width: 100%;
+  height: 450px;
+}
+.slide li img {
+  width: 100%;
+  height: 450px;
+  cursor: pointer;
+  user-select: none;
+}
+```
+
+> 弹窗：图片垂直自适应居中 
+
+```
+.slide li {
+  list-style: none;
+  position: absolute;
+  width: 100%;
+}
 .slide li img {
   width: auto;
   height: auto;
