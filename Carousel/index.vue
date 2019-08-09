@@ -6,12 +6,12 @@
         class="slide clearfix"
         :name="transitionName"
         id="galley"
+        v-bind:style="{ height: height + 'px' }"
       >
         <li
           v-for="(item, index) in slideData"
           :key="index"
           v-show="index == beginValue"
-          v-bind:style="{ height: height + 'px' }"
         >
           <img :src="item.src" />
           <div class="title" v-if="item.title">{{ item.title }}</div>
@@ -191,7 +191,6 @@ export default {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 450px;
 }
 .slide li {
   list-style: none;
