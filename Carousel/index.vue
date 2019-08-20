@@ -5,13 +5,14 @@
         tag="ul"
         class="slide clearfix"
         :name="transitionName"
-        id="galley"
+        :id="galleyId"
         v-bind:style="{ height: height + 'px' }"
       >
         <li
           v-for="(item, index) in slideData"
           :key="index"
           v-show="index == beginValue"
+          v-bind:style="{ height: '100%' }"
         >
           <img :src="item.src" />
           <div class="title" v-if="item.title">{{ item.title }}</div>
@@ -41,6 +42,7 @@ export default {
   name: "carousel",
   data() {
     return {
+      galleyId: "galley" + this.getId(),
       img_count: 0,
       img_index: 0,
       setInterval: "",
@@ -111,6 +113,9 @@ export default {
     clearInterval(this.setInterval);
   },
   methods: {
+    getId(stamp = 0, str = "id") {
+      return str + ((Math.random() + stamp + Date.now()) * 10000).toString(36);
+    },
     change(key) {
       if (key > this.slideData.length - 1) {
         key = 0;
@@ -157,7 +162,6 @@ export default {
     }
   },
   mounted() {
-    this.img_count = this.slideData.length;
     let box = this.$refs.carousel; //监听对象
     box.addEventListener("mouseover", () => {
       this.mouseOver();
@@ -165,8 +169,9 @@ export default {
     box.addEventListener("mouseout", () => {
       this.mouseOut();
     });
+    this.img_count = this.slideData.length; // 图片总数
     this.beginValue = this.begin;
-    let galley = document.getElementById("galley");
+    let galley = document.getElementById(this.galleyId);
     let viewer = new Viewer(galley, {
       // 相关配置项,详情参考官网
     });
