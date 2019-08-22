@@ -14,12 +14,12 @@
           v-show="index == beginValue"
           v-bind:style="{ height: '100%' }"
         >
-          <img :src="item.src" />
+          <img :src="item.src" @click="showView"/>
           <div class="title" v-if="item.title">{{ item.title }}</div>
         </li>
       </transition-group>
       <div class="count" v-show="count">
-        {{ beginValue + 1 + `/` + img_count }}
+        {{ beginValue + 1 + `/` + slideData.length }}
       </div>
       <div class="up" @click="up" v-show="arrow"></div>
       <div class="next" @click="next" v-show="arrow"></div>
@@ -43,7 +43,6 @@ export default {
   data() {
     return {
       galleyId: "galley" + this.getId(),
-      img_count: 0,
       img_index: 0,
       setInterval: "",
       beginValue: 0,
@@ -159,6 +158,16 @@ export default {
       ++this.beginValue;
       this.transitionName = "slide";
       this.change(this.beginValue);
+    },
+    showView(){
+      // let galley = document.getElementById(this.galleyId);
+      let galley = this.$refs[this.galleyId].$el;
+      let viewer = new Viewer(galley, {
+        hide() {
+          // 相关配置项,详情参考官网
+          viewer.destroy();
+        }
+      });
     }
   },
   mounted() {
@@ -169,12 +178,7 @@ export default {
     box.addEventListener("mouseout", () => {
       this.mouseOut();
     });
-    this.img_count = this.slideData.length; // 图片总数
     this.beginValue = this.begin;
-    let galley = document.getElementById(this.galleyId);
-    let viewer = new Viewer(galley, {
-      // 相关配置项,详情参考官网
-    });
     this.play();
   }
 };
