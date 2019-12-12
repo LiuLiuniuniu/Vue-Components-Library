@@ -136,7 +136,8 @@ export default {
       }
     },
     play() {
-      // this.setInterval = setInterval(this.autoPlay, this.interval);
+      // 自动播放
+      this.setInterval = setInterval(this.autoPlay, this.interval);
     },
     mouseOver() {
       //鼠标进入

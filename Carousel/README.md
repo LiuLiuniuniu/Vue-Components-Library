@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://i.loli.net/2019/07/31/5d415c583cca181681.png" alt="2.png" title="2.png" />
+<img src="https://img03.sogoucdn.com/app/a/100520146/F3A91D99111A3BAB737378DE0E961122" alt="2.png" title="2.png" />
 </p>
 
 # 跑马灯+Viewerjs
