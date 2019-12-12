@@ -44,6 +44,7 @@ export default {
     return {
       galleyId: "galley" + this.getId(),
       img_index: 0,
+      viewer: {},
       setInterval: "",
       beginValue: 0,
       transitionName: "slide"
@@ -160,15 +161,16 @@ export default {
       this.change(this.beginValue);
     },
     showView(){
-      // let galley = document.getElementById(this.galleyId);
+      this.viewer.show();
+    },
+    OpenViewer() {
       let galley = this.$refs[this.galleyId].$el;
-      let viewer = new Viewer(galley, {
-        hide() {
-          // 相关配置项,详情参考官网
-          viewer.destroy();
-        }
+      this.viewer = new Viewer(galley, {
+        show(){  // 动态加载图片后，更新实例
+          this.viewer.update();
+        },
       });
-    }
+    },
   },
   mounted() {
     let box = this.$refs.carousel; //监听对象
@@ -180,6 +182,7 @@ export default {
     });
     this.beginValue = this.begin;
     this.play();
+    this.OpenViewer();
   }
 };
 </script>
