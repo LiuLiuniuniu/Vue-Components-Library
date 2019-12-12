@@ -3,7 +3,7 @@
 
 ##### [Drawer 抽屉](https://github.com/LiuLiuniuniu/Vue-Components-Library/tree/master/Drawer)
 
-##### [适合任何场景的跑马灯效果](#)——[Carousel](https://github.com/LiuLiuniuniu/Vue-Components-Library/tree/master/Carousel)
+##### [适合任何场景的跑马灯效果 Carousel](https://github.com/LiuLiuniuniu/Vue-Components-Library/tree/master/Carousel)
 
 ##### [Vue+vue.ant.design 的表单库](#)——[FormInputGroup](https://github.com/LiuLiuniuniu/Vue-Components-Library/tree/master/FormInputGroup)
 
